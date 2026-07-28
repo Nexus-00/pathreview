@@ -33,3 +33,5 @@ The test_batch_processor.py unit test is currently broken. A fix would include c
 
 **Reproduction summary:**
 `test_empty_chunks_list_returns_empty` fails with `AssertionError: assert ('Empty chunks list' in '' or False)` — `caplog.text` is empty and `caplog.records` is empty. The captured stdout shows the warning *was* emitted (`[warning  ] Empty chunks list provided to BatchEmbeddingProcessor`), but structlog uses its default configuration (`structlog.get_logger()` in `batch_processor.py:7`) which prints straight to stdout instead of propagating through Python's stdlib `logging`. Since pytest's `caplog` fixture only captures stdlib `logging` output, the log record never reaches `caplog`, so the assertion fails even though the code runs correctly.
+
+**PLAN.md link:** https://github.com/Nexus-00/pathreview/blob/bug/159-structlog-output-not-captured-by-pytest-caplog/PLAN.md
