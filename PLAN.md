@@ -3,7 +3,6 @@
 **Issue:** https://github.com/ascherj/pathreview/issues/159
 
 ### Understand
-What is the root cause of this issue? What behavior is expected vs. actual?
 
 **Root cause:** structlog is left at its *default* configuration during test runs. The default uses `structlog.PrintLogger`, which writes rendered events straight to `stdout` and never propagates them through Python's stdlib `logging` system. pytest's `caplog` fixture only captures records that flow through stdlib `logging`, so `caplog.text` and `caplog.records` are always empty.
 
@@ -22,7 +21,6 @@ The project already has correct routing in `core/logging.py::configure_logging()
 
 ### Plan
 
-
 1. **Add a structlog test fixture** in `tests/conftest.py`: an `autouse=True` fixture that calls `structlog.configure(...)` with `logger_factory=structlog.stdlib.LoggerFactory()`, `cache_logger_on_first_use=False`, and a plain (non-ANSI) renderer chain ending in `structlog.stdlib.ProcessorFormatter.wrap_for_formatter` / `ConsoleRenderer(colors=False)` so the event text lands in `caplog` cleanly.
 2. **Ensure caplog visibility:** confirm the fixture (or the test) sets the capture level so WARNING-level records propagate to `caplog` (the default caplog handler captures propagated records; set `caplog.set_level`/root level if needed).
 3. **Run the target test:** `python -m pytest tests/unit/test_batch_processor.py -v` and expect `11 passed`.
@@ -30,13 +28,11 @@ The project already has correct routing in `core/logging.py::configure_logging()
 5. **Commit** the reproduction and fix, then link the commit in `JOURNAL.md`.
 
 ### Inputs & outputs
-What does your fix take as input? What should it produce or change?
 
 - **Input:** the current pytest environment with structlog unconfigured.
 - **Output/change:** a new fixture in `tests/conftest.py`. After the change, structlog log calls made anywhere in the codebase during tests are routed through stdlib `logging` and captured by `caplog`. `test_empty_chunks_list_returns_empty` passes, and all other `caplog`-based assertions across the suite work.
 
 ### Risks & unknowns
-What could go wrong? What are you still unsure about?
 
 - **Global config bleed:** `structlog.configure()` is process-global. An `autouse` session fixture makes it deterministic, and using `cache_logger_on_first_use=False` avoids stale cached loggers from module-import time.
 - **Renderer format:** if the renderer emits ANSI color codes, `caplog.text` substring checks could break, so use `colors=False` or a plain renderer in tests.
@@ -44,7 +40,6 @@ What could go wrong? What are you still unsure about?
 - **Unknown:** whether any existing passing test relies on the *default* stdout behavior. The full-suite run in step 4 will surface this.
 
 ### Edge cases
-What inputs or states should your fix handle gracefully?
 
 - Loggers created at module import time (before the fixture runs), handled by disabling logger caching so config is picked up on first log call.
 - Log records at various levels (debug/info/warning/error). The batch processor emits all of these, and the config should route each to stdlib logging without dropping the message text.

@@ -51,7 +51,7 @@ Time management is an issue. I've been busy throughout the entire week, and did 
 
 ### Check-in 2 (end of week)
 
-**PR link:** [link to your submitted pull request]
+**PR link:** https://github.com/ascherj/pathreview/pull/672
 
 **Branch:** bug/159-structlog-output-not-captured-by-pytest-caplog
 
