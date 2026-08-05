@@ -66,3 +66,36 @@ Added an autouse fixture in `tests/conftest.py` that reconfigures structlog to r
 - `make check`: `tests/conftest.py` is clean under `ruff` and `black`; `mypy`'s `typecheck` target does not cover `tests/`. The 182 `make check` errors are all pre-existing and outside the scope of this issue.
 
 **Draft PR feedback received from:** none
+
+## Week 10 — Iteration & reflection
+
+### Reviewer feedback
+
+**Feedback received:** [ ] Yes  [x] No — still awaiting review
+
+**Summary of feedback:**
+No review came in for my Pull Request.
+
+**How you responded:**
+I did not receive feedback.
+
+---
+
+### Reflection
+
+**What was harder than you expected?**
+What was harder than I expected was the workflow process of finding the offending part of the codebase, then ensuring that I understood why it was a problem in the issue on GitHub, before then having to understand how to implement a fix in the way that meets Contributor standards.
+
+**What did you learn about working in a large codebase?**
+When I'm building my own project, I know what I want, and I am free to implement changes as I see fit, I have an easier time remembering which parts of the codebase correspond to which module, I am familiar with libraries that I use, and I don't have to wait for pull requests to make progress in the project.
+
+When contributing to someone else's production code, I have very limited insight of the codebase. I feel like that unless I use the project frequently in my day-to-day work, I don't have as much of an incentive or project-wide knowledge to make meaningful contributions to someone else's codebase. ALso having to follow their conventions is expected, but I think community code contributions have multiple layers of friction: making the right changes, following conventions, understanding the relevant parts of the codebase, determining if it is even worth contributing, etc.
+
+**How did AI tools help — and where did they fall short?**
+For this module, AI assistance was the most useful in gaining the understanding of the codebase. I understood what test_batch_processor.py was meant to do, and I was able to make targeted changes that fixed a bug and made one more test pass. For my intervention, I still needed to direct Claude Code to make sure contributor guidelines were met, and I ran the tests myself.
+
+**What would you do differently if you started over?**
+One thing that I would do differently, is picking a different, more difficult issue that doesn't involve the test case itself, but rather some implementation that has a test case. I feel like with so many different issues to take on for Pathreview, it's hard to say that seeing test cases would be useful if I only expect a few of them to fail, not many of them at once.
+
+**What are you most proud of from this module?**
+I'm most proud of practicing on making my first pull request on a somewhat real codebase. With the current hiring environment, I'm not too sure if hiring managers or recruiters pay attention to contributions made on GitHub, or work past the resume. With AI being able to fill out resumes and submit them, I'm not too sure if credentials on my Resume or contributions on GitHub would matter as much as before AI.
